@@ -1,0 +1,36 @@
+Master_Code_Arduino_1.cpp
+
+#include <Wire.h>
+
+void setup() {
+  Wire.begin(); // Join I2C bus as master
+  Serial.begin(9600);
+}
+
+void loop() {
+  Wire.beginTransmission(8); // Address of slave
+  Wire.write("Hello, Slave!");
+  Wire.endTransmission();
+  Serial.println("Message sent!");
+  delay(1000);
+}
+
+Slave_Code_Arduino_2.cpp
+
+#include <Wire.h>
+
+void setup() {
+  Wire.begin(8); // Set address as 8
+  Wire.onReceive(receiveEvent);
+  Serial.begin(9600);
+}
+
+void receiveEvent(int bytes) {
+  while (Wire.available()) {
+    char c = Wire.read();
+    Serial.print(c);
+  }
+  Serial.println();
+}
+
+void loop() {}
